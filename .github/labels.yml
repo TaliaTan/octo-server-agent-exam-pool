@@ -1,0 +1,66 @@
+- name: type/bug
+  color: d73a4a
+  description: 缺陷反馈
+- name: type/feature
+  color: a2eeef
+  description: 新需求
+- name: type/question
+  color: d876e3
+  description: 问题咨询
+- name: type/docs
+  color: 0075ca
+  description: 文档或知识库补充
+- name: type/ops
+  color: fbca04
+  description: 部署、配置、运维类
+- name: priority/P0
+  color: b60205
+  description: 阻断/严重风险
+- name: priority/P1
+  color: d93f0b
+  description: 高优先级
+- name: priority/P2
+  color: fbca04
+  description: 普通优先级
+- name: priority/P3
+  color: cfd3d7
+  description: 低优先级
+- name: status/new
+  color: cfd3d7
+  description: 新收集，未梳理
+- name: status/triaged
+  color: 0e8a16
+  description: 已分类
+- name: status/need-info
+  color: fef2c0
+  description: 信息不足，等待补充
+- name: status/prd-ready
+  color: 1d76db
+  description: PRD 已补齐
+- name: status/in-review
+  color: 5319e7
+  description: 等待 review
+- name: status/rework
+  color: e99695
+  description: 被打回，需修改
+- name: status/accepted
+  color: 0e8a16
+  description: 已接受
+- name: status/wontfix
+  color: 000000
+  description: 明确不做
+- name: status/closed
+  color: 6a737d
+  description: 已关闭
+- name: pm/prd-needed
+  color: 1d76db
+  description: 需要补 PRD
+- name: pm/review-needed
+  color: 5319e7
+  description: 需要 review
+- name: pm/reviewed
+  color: 0e8a16
+  description: 已 review
+- name: source/octo-group
+  color: bfdadc
+  description: 来自 Octo 群
