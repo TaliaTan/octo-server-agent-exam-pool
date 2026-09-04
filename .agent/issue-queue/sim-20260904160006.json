@@ -1,0 +1,6 @@
+{
+  "id": "sim-20260904160006",
+  "title": "[Simulation][Bug] 群消息搜索返回不可见消息",
+  "labels": ["type/bug", "priority/P1", "status/new", "source/octo-group"],
+  "body": "## 用户原话\n> 模拟反馈：群消息搜索搜到了我没有权限看的消息。\n\n## 影响对象\n- 产品/模块：messages_search / message visibility\n- 影响用户：群成员、Space 成员\n\n## 现象\n搜索结果中出现了当前用户不应可见的群/线程消息。\n\n## 期望\n用户只能看到自己有权限访问的消息结果。\n\n## 复现信息\n1. 用户 A 不属于某群或某线程。\n2. 用户 A 使用全局消息搜索。\n3. 结果里出现该群或线程的消息。\n\n## 影响范围/优先级判断\n可能涉及权限越界和隐私暴露，初始判断 priority/P1。\n\n## 需要补充的信息\n- 实际发生的群号/线程 short_id\n- 搜索关键词\n- 用户 UID / Space ID\n- 是否稳定复现\n\n## Agent 判断\n- 类型：bug\n- 初始优先级：priority/P1\n- 当前状态：status/new\n\n## 来源\n- Octo 群：ee36e24242c7449c9eb52527424b92fa\n- 消息时间：2026-09-04 15:59 GMT+8\n- 备注：这是考试链路模拟 issue，可在验证后关闭。"
+}
