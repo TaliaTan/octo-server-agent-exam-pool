@@ -1,0 +1,25 @@
+name: Create issues from agent queue
+
+on:
+  push:
+    paths:
+      - .agent/issue-queue/*.json
+      - .github/workflows/create-issues-from-queue.yml
+      - scripts/create-issues-from-queue.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  create-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python scripts/create-issues-from-queue.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
