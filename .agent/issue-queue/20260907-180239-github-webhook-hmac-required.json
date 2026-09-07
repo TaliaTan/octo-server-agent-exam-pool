@@ -1,0 +1,12 @@
+{
+  "id": "20260907-180239-github-webhook-hmac-required",
+  "title": "[Feature] incomingwebhook GitHub 适配器支持并强制校验 X-Hub-Signature-256",
+  "labels": [
+    "type/feature",
+    "priority/P1",
+    "status/new",
+    "pm/prd-needed",
+    "source/octo-group"
+  ],
+  "body": "## 用户原话\n> 李明刚才反馈说：希望 octo-server 收 GitHub webhook 的时候能强制校验 X-Hub-Signature-256。现在只靠 URL 里那串 token，我们安全审计过不了。\n\n## 类型\nSecurity Feature / 审计阻断项。\n\n## 当前代码状态\n- GitHub incoming webhook 现在明确“不强制 HMAC”，只靠 URL 里的 128-bit token 鉴权：`modules/incomingwebhook/adapter_github.go#L5-L10`\n- GitHub adapter 当前没有 `verifyToken` / HMAC 校验配置，只配置了 parse 和 bodyLimit：`modules/incomingwebhook/adapter.go#L63-L66`\n- URL token 是生成随机 token 后存 SHA-256 hash，推送时常量时间比对：`modules/incomingwebhook/api.go#L365-L379`、`modules/incomingwebhook/api.go#L1301-L1339`\n\n## 需求\nGitHub incoming webhook 需要支持配置 Webhook Secret，并在接收请求时校验 `X-Hub-Signature-256`。在审计要求下，GitHub adapter 不能只依赖 URL token 作为唯一安全机制。\n\n## 期望行为\n- GitHub webhook 可配置 secret。\n- 接收 GitHub webhook 时校验 `X-Hub-Signature-256`。\n- 校验失败返回 401/403，不进入消息渲染和投递。\n- 对 GitHub 类型 webhook，审计要求下可强制启用 HMAC。\n- URL token 可以继续作为 webhook id/token 级别的入口鉴权，但不能作为 GitHub webhook 的唯一安全机制。\n\n## 验收标准\n1. GitHub webhook 配置 secret 后，带正确 `X-Hub-Signature-256` 的请求可以投递成功。\n2. 缺少签名、签名格式错误、签名不匹配的请求会被拒绝。\n3. HMAC 计算使用原始 request body，而不是解析后的 JSON。\n4. 验签比较使用常量时间比较。\n5. 文档说明 GitHub Webhook Secret 应如何配置。\n6. 不影响 native / GitLab / WeCom 等其它 adapter 的现有行为，除非显式配置对应安全策略。\n"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "20260907-180117-botfather-revoke-token-stale",
+  "title": "[Bug] BotFather /revoke 后旧 bf_ token 未立即失效",
+  "labels": [
+    "type/bug",
+    "priority/P1",
+    "status/new",
+    "source/octo-group"
+  ],
+  "body": "## 用户原话\n> 郭永凤刚才反馈说：botfather 里我执行了 /revoke 换 token，旧的 bf_ token 过了两三分钟还能正常调 API。新 token 也能用，等于同时有两个能用的。这个不太对吧？\n\n## 补充复现信息\n- bot id：`test_revoke_bot`\n- `/revoke` 时间：2026-09-07 17:50 左右\n- 调用接口：同一套测试环境的 octo-server Bot API HTTP 接口 `/bot/v1/message/send`\n- 现象：`/revoke` 后约 3 分钟，新旧两个 `bf_` token 调用都返回成功\n- 已确认：两次请求打到同一个环境\n\n## 判断\n这是 Bug，且偏安全/鉴权问题。`/revoke` 成功后旧 token 应立即失效，不应出现新旧 token 同时可用。\n\n## 代码依据\n- `/revoke` 文案承诺旧 Token 立即失效：`modules/botfather/templates/zh-CN/command.tmpl#L55-L59`\n- `/revoke` 确认后生成新 token，并更新 `robot.bot_token`：`modules/botfather/command.go#L728-L741`、`modules/botfather/db.go#L318-L323`\n- Bot API 主路由 `/v1/bot` 入口先走 `authBot()`，`/sendMessage` 在认证组内：`modules/bot_api/bot_api.go#L400-L410`\n- `bf_` / User Bot 鉴权按请求 token 查 `robot.bot_token`，要求 `status=1`：`modules/bot_api/auth.go#L25-L41`、`modules/bot_api/auth.go#L45-L61`、`modules/bot_api/db.go#L45-L52`\n\n## 预期\n- `/revoke` 成功返回新 token 后，旧 `bf_` token 立即无法通过 Bot API 鉴权。\n- 旧 token 调用发送消息类接口应返回认证失败。\n\n## 实际\n- 旧 token 和新 token 在 revoke 后同时可用至少约 3 分钟。\n\n## 建议排查\n1. 查 `test_revoke_bot` 在 17:50 前后 `robot.bot_token` 的变更记录。\n2. 查旧 token 请求实际命中的服务实例、commit、handler。\n3. 对比 `/bot/v1/message/send` 到底映射到哪个内部路由。\n4. 用旧 token 直接打当前代码注册的 `/v1/bot/sendMessage` 验证是否也成功。\n5. 如果存在 fleet/daemon 代理层，需要 octo-fleet 维护者一起确认是否有 token 缓存或转发鉴权。\n"
+}
