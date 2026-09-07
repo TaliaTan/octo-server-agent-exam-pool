@@ -3,7 +3,7 @@
 - Issue: #3
 - 类型: Feature
 - 优先级: P2
-- 状态: PRD ready / waiting for review
+- 状态: PRD reviewed / accepted
 - 来源: Octo 群反馈
 - 反馈人: 檀小青
 - PRD Owner: 小塔
@@ -103,6 +103,13 @@
 4. 是否需要把“恢复默认高度”列为首版必需能力？
 5. 当前 P2 优先级是否合适？
 
-## 11. 结论
+## 11. Review 记录
 
-该需求已有明确用户问题和可感知验收标准，可以进入产品 review。仍需 reviewer 对高度记忆策略、交互方式和首版边界做确认。
+- 提审时间: 2026-09-07 18:09 GMT+8
+- Reviewer: lejun
+- 提审消息: `@[f145574e162a4fa1a056b511be03aa77:lejun] 麻烦 review 一下需求池 #3 的 PRD：Octo 对话框支持自由调整高度。...`
+- Review 结果: 2026-09-07 18:11 GMT+8，Reviewer 回复“通过”。
+
+## 12. 结论
+
+该需求已有明确用户问题和可感知验收标准，PRD 已通过 review。后续可进入排期/实现评估。
